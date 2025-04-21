@@ -1,0 +1,52 @@
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.*
+!.env.example # Keep example env files if you have them
+
+# build outputs (less common for pure node backend, but good practice)
+dist/
+build/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.sock
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE specific files (optional, can also be in root .gitignore)
+.vscode/
+.idea/
+*.swp
+.history/ # VS Code Local History
+
+# Uploaded files (if storing temporarily on disk before R2, though plan suggests memory)
+# uploads/
+
+# Test coverage reports
+coverage/
+
+# misc
+.nyc_output/
+.lock-wscript
+.npmrc
+*.tgz
+*.pact
+.eslintcache
+
+# Cloudflare Workers build output (if building within server directory)
+# worker/ # or wherever wrangler outputs the build
+# .wrangler/

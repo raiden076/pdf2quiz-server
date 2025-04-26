@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-const gemini = new GoogleGenAI(GEMINI_API_KEY);
+const gemini = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 const config = {
   temperature: 0.7,
   thinkingConfig: {
@@ -118,4 +118,44 @@ const generateQuizFromGeminiFileWorker = async (geminiFile) => {
   }
 };
 
-module.exports = { generateQuizFromGeminiFileWorker };
+const uploadToGemini = async (filePath) => {
+  try {
+    console.log(`WORKER: Uploading ${filePath} to Gemini File API...`);
+
+    const geminiUploadedFile = await gemini.files.upload({
+      file: filePath,
+    });
+    console.log(
+      `WORKER: Gemini upload complete. URI: ${geminiUploadedFile.uri}, Name: ${geminiUploadedFile.name}`,
+    );
+
+    return geminiUploadedFile;
+  } catch (error) {
+    console.error('WORKER: Error uploading file to Gemini:', error);
+    throw new Error(`Gemini upload failed: ${error.message}`);
+  }
+};
+
+const deleteGemeiniFile = async (geminiFile) => {
+  try {
+    console.log(`WORKER: Deleting Gemini file ${geminiFile.name}...`);
+    await gemini.files.delete({ name: geminiFile.name });
+    console.log(`WORKER: Gemini file ${geminiFile.name} deleted.`);
+  } catch (error) {
+    console.error('WORKER: Error deleting Gemini file:', error);
+    throw new Error(`Gemini file deletion failed: ${error.message}`);
+  }
+};
+// test uploadToGemini and deleteGemeiniFile
+// console.log(GEMINI_API_KEY);
+// console.log(gemini);
+// uploadToGemini('./server.js').then((geminiFile) => {
+//   console.log(geminiFile);
+//   deleteGemeiniFile(geminiFile);
+// });
+
+module.exports = {
+  generateQuizFromGeminiFileWorker,
+  uploadToGemini,
+  deleteGemeiniFile,
+};

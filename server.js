@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 const cors = require('cors');
 
-// placeholder routes import
 const authRoutes = require('./routes/authRoutes.js');
-// const quizRoutes = require('./routes/quizRoutes.js');
-// const sessionRoutes = require('./routes/sessionRoutes.js');
-// const userRoutes = require('./routes/userRoutes.js');
+const quizRoutes = require('./routes/quizRoutes.js');
+const sessionRoutes = require('./routes/sessionRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 
 connectDB();
 
@@ -31,9 +30,9 @@ app.get('/health', (req, res) => {
 
 // placeholder routes
 app.use('/api/auth', authRoutes); // e.g., /api/auth/register, /api/auth/login
-// app.use('/api/quiz', quizRoutes); // e.g., /api/quiz/upload, /api/quiz/:id
-// app.use('/api/sessions', sessionRoutes); // e.g., /api/sessions
-// app.use('/api/users', userRoutes); // e.g., /api/users/me
+app.use('/api/quiz', quizRoutes); // e.g., /api/quiz/upload, /api/quiz/:id
+app.use('/api/sessions', sessionRoutes); // e.g., /api/sessions
+app.use('/api/users', userRoutes); // e.g., /api/users/me
 
 app.use((err, res) => {
   console.error('unhandled error: ', err.stack || err);

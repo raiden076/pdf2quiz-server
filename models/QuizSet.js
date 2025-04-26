@@ -40,10 +40,14 @@ const quizSetSchema = new mongoose.Schema({
     type: String,
     required: [true, 'PDF URL is required'],
   },
+  r2ObjectKey: {
+    type: String,
+    required: [true, 'R2 object key is required'],
+  },
   questions: {
     type: [questionSchema],
     required: [true, 'Questions are required'],
-    validate: [(arr) => arr.length >= 1, 'At least 1 question is required'],
+    // validate: [(arr) => arr.length >= 1, 'At least 1 question is required'],
   },
   // not sure this will be needed in the mvp, but let's keep it for now
   status: {
